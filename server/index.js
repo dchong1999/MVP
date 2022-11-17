@@ -38,5 +38,30 @@ app.get('/getQueue', (req, res) => {
     .catch((error) => console.log('getQueue S > D ERROR: ', error));
 });
 
+app.get('/getAll', (req, res) => {
+  return db.getAll()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((error) => console.log('getAll S > D ERROR: ', error));
+})
+
+app.put('/markCompleted', (req, res) => {
+  return db.markCompleted(req.body.OrderNo)
+    .then((response) => {
+      res.sendStatus(200);
+    })
+    .catch((error) => console.log('markCompleted S > D ERROR: ', error));
+});
+
+app.put('/markNotCompleted', (req, res) => {
+  return db.markNotCompleted(req.body.OrderNo)
+    .then((response) => {
+      res.sendStatus(200);
+    })
+    .catch((error) => console.log('markNotCompleted S > D ERROR: ', error));
+});
+
+
 app.listen(3000);
 console.log('Listening on port 3000');

@@ -25,10 +25,32 @@ const getQueue = () => {
       return response;
     })
     .catch((error) => {
-      console.log('getQueue S to D > ERROR:', error);
+      console.log('getQueue S to D > ERROR: ', error);
     });
+};
+
+const getAll = () => {
+  return Customers.find().sort('OrderNo')
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log('getAll S to D > ERROR: ', error);
+    });
+};
+
+const markCompleted = (OrderNo) => {
+  return Customers.findOneAndUpdate({OrderNo: OrderNo}, {Completed: true})
+    .catch((error) => console.log('markCompleted S to D > ERROR: ', error));
+};
+
+const markNotCompleted = (OrderNo) => {
+  return Customers.findOneAndUpdate({OrderNo: OrderNo}, {Completed: false})
+    .catch((error) => console.log('markNotCompleted S to D > ERROR: ', error));
 };
 
 module.exports.getUpdates = getUpdates;
 module.exports.getQueue = getQueue;
-
+module.exports.getAll = getAll;
+module.exports.markCompleted = markCompleted;
+module.exports.markNotCompleted = markNotCompleted;
