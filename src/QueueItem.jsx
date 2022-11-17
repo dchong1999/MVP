@@ -21,9 +21,13 @@ const QueueItem = ({completed, name, orderno}) => {
   }
 
   return(
-    <h3 className="content">
-    {completed ? <span style={{textDecoration:'line-through'}} key={orderno} onClick={(e)=>strikethrough(e)}>{name}</span> : <span key={orderno} onClick={(e)=>strikethrough(e)}>{name}</span>}
-    </h3>
+    <div>
+      <span>
+        <h3 className="content">
+          {completed ? <span style={{textDecoration:'line-through'}} key={orderno} onClick={(e)=>strikethrough(e)}>{name}</span> : <span key={orderno} onClick={(e)=>strikethrough(e)}>{name}</span>}
+        </h3>
+      </span>
+    </div>
   )
 }
 

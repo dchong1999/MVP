@@ -51,19 +51,26 @@ const App = () => {
       .then((response) => getAll());
   };
 
+  const reset = () => {
+    return axios.get('/reset')
+      .then((response) => update())
+      .catch((error) => console.log('reset C to S > ERROR: ', error));
+  };
+
   // setInterval(() => {update()}, 10000); set time back to 30s
 
   return (
     <section id="main">
       <div className="overlay">
         <div id="header"></div>
-        <div id="title"><h1>Queue: {count}</h1></div>
+        <div id="title"><h1>QUEUE: {count}</h1></div>
         <div id="scrollable">
           {queue.length === 0 ? <h3 className="content">Queue is empty</h3> : queue.map((customer, index) => <QueueItem key={index} completed={customer[2]} name={customer[1]} orderno={customer[0]}/>)}
         </div>
         <div id="footer">
           <button onClick={(e) => update(e)}>Show Queue</button> {/* eventually get rid of button and just use setInterval */}
           <button onClick={(e) => showAll(e)}>Show All</button>
+          <button onClick={(e) => reset(e)}>Reset</button>
         </div>
       </div>
       <video autoPlay loop muted>

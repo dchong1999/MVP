@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.get('/getUpdates', (req, res) => {
   var date = new Date();
-  date.setDate(date.getDate()-5);
+  date.setDate(date.getDate()-3);
   return axios.get(`https://${SHOP}.myshopify.com/admin/api/2022-10/orders.json?status=open&fields=order_number,customer&created_at_min=${date.toISOString().slice(0,10)}T00:00:00.000Z`)
     .then((response) => {
       var customers = [];
@@ -44,7 +44,15 @@ app.get('/getAll', (req, res) => {
       res.send(response);
     })
     .catch((error) => console.log('getAll S > D ERROR: ', error));
-})
+});
+
+app.get('/reset', (req, res) => {
+  return db.reset()
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((error) => console.log('reset S > D ERROR: ', error));
+});
 
 app.put('/markCompleted', (req, res) => {
   return db.markCompleted(req.body.OrderNo)

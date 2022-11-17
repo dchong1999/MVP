@@ -49,8 +49,14 @@ const markNotCompleted = (OrderNo) => {
     .catch((error) => console.log('markNotCompleted S to D > ERROR: ', error));
 };
 
+const reset = () => {
+  return Customers.deleteMany()
+    .catch((error) => console.log('reset S to D > ERROR: ', error));
+};
+
 module.exports.getUpdates = getUpdates;
 module.exports.getQueue = getQueue;
 module.exports.getAll = getAll;
 module.exports.markCompleted = markCompleted;
 module.exports.markNotCompleted = markNotCompleted;
+module.exports.reset = reset;
