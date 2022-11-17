@@ -57,7 +57,7 @@ const App = () => {
       .catch((error) => console.log('reset C to S > ERROR: ', error));
   };
 
-  // setInterval(() => {update()}, 10000); set time back to 30s
+  setInterval(() => {update()}, 10000);
 
   return (
     <section id="main">
