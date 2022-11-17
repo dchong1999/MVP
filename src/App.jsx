@@ -53,6 +53,7 @@ const App = () => {
 
   const reset = () => {
     return axios.get('/reset')
+      .then((response) => update())
       .catch((error) => console.log('reset C to S > ERROR: ', error));
   };
 
