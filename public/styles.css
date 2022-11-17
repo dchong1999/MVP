@@ -22,7 +22,7 @@ h1{
 }
 
 #scrollable{
-  height: 65vh;
+  height: 60vh;
   overflow: scroll;
   color: white;
   align-items: center;
@@ -38,7 +38,7 @@ h1{
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 50px 10px 10px 10px;
+  padding: 20px 10px 10px 10px;
 }
 
 button{
