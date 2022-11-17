@@ -32,6 +32,8 @@ const App = () => {
       .then((response) => getQueue());
   };
 
+  setInterval(() => update(), 15000);
+
   const getAll = () => {
     var names = [];
     return axios.get('/getAll')
@@ -46,18 +48,11 @@ const App = () => {
       .catch((error) => console.log('getAll C to S > ERROR: ', error));
   };
 
-  const showAll = () => {
-    update()
-      .then((response) => getAll());
-  };
-
   const reset = () => {
     return axios.get('/reset')
       .then((response) => update())
       .catch((error) => console.log('reset C to S > ERROR: ', error));
   };
-
-  setInterval(() => {update()}, 10000);
 
   return (
     <section id="main">
@@ -69,7 +64,7 @@ const App = () => {
         </div>
         <div id="footer">
           <button onClick={(e) => update(e)}>Show Queue</button> {/* eventually get rid of button and just use setInterval */}
-          <button onClick={(e) => showAll(e)}>Show All</button>
+          <button onClick={(e) => getAll(e)}>Show All</button>
           <button onClick={(e) => reset(e)}>Reset</button>
         </div>
       </div>
