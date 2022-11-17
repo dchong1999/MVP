@@ -73,7 +73,7 @@ const App = () => {
           <button onClick={(e) => reset(e)}>Reset</button>
         </div>
       </div>
-      <video autoPlay loop muted>
+      <video autoPlay loop muted playsInline>
         <source src={video} type='video/mp4'/>
       </video>
     </section>
