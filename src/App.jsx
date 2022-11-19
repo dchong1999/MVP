@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import QueueItem from './QueueItem.jsx';
 import video from './umbreon-night.mp4';
@@ -6,35 +6,34 @@ import video from './umbreon-night.mp4';
 const App = () => {
   const [queue, setQueue] = useState([]);
   const [count, setCount] = useState(0);
+  const [refresh, setRefresh] = useState(true);
 
-  const getUpdates = (e) => {
+  const showQueue = (e) => {
+    if (!refresh) {
+      setRefresh(true);
+    }
     return axios.get('/getUpdates')
+      .then((response) => {
+        var names = [];
+        return axios.get('/getQueue')
+          .then((response) => {
+            if (response.data) {
+              response.data.forEach((item) => {
+                names.push([item.OrderNo, item.Name, false]);
+              });
+            }
+            setQueue(names);
+            setCount(names.length);
+          })
+          .catch((error) => console.log('getQueue C to S > ERROR: ', error));
+          })
       .catch((error) => console.log('getUpdates C to S > ERROR: ', error));
   };
 
-  const getQueue = () => {
-    var names = [];
-    return axios.get('/getQueue')
-      .then((response) => {
-        if (response.data) {
-          response.data.forEach((item) => {
-            names.push([item.OrderNo, item.Name, false]);
-          });
-        }
-        setQueue(names);
-        setCount(names.length);
-      })
-      .catch((error) => console.log('getQueue C to S > ERROR: ', error));
-  };
-
-  const update = () => {
-    return getUpdates()
-      .then((response) => getQueue());
-  };
-
-  setInterval(() => update(), 15000);
-
-  const getAll = () => {
+  const showAll = (e) => {
+    if (refresh) {
+      setRefresh(false);
+    }
     var names = [];
     return axios.get('/getAll')
       .then((response) => {
@@ -48,11 +47,28 @@ const App = () => {
       .catch((error) => console.log('getAll C to S > ERROR: ', error));
   };
 
-  const reset = () => {
+  const reset = (e) => {
+    if (!refresh) {
+      setRefresh(true);
+    }
     return axios.get('/reset')
-      .then((response) => update())
+      .then((response) => {
+        setQueue([]);
+        setCount(0);
+      })
       .catch((error) => console.log('reset C to S > ERROR: ', error));
   };
+
+  useEffect(() => {
+    console.log(refresh);
+    if (refresh) {
+      const interval = setInterval(() => {
+        console.log('interval ran');
+        showQueue();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [refresh]);
 
   return (
     <section id="main">
@@ -63,8 +79,8 @@ const App = () => {
           {queue.length === 0 ? <h3 className="content">Queue is empty</h3> : queue.map((customer, index) => <QueueItem key={index} completed={customer[2]} name={customer[1]} orderno={customer[0]}/>)}
         </div>
         <div id="footer">
-          <button onClick={(e) => update(e)}>Show Queue</button> {/* eventually get rid of button and just use setInterval */}
-          <button onClick={(e) => getAll(e)}>Show All</button>
+          <button onClick={(e) => showQueue(e)}>Show Queue</button> {/* eventually get rid of button and just use setInterval */}
+          <button onClick={(e) => showAll(e)}>Show All</button>
           <button onClick={(e) => reset(e)}>Reset</button>
         </div>
       </div>
