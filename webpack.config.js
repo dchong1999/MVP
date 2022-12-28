@@ -19,6 +19,14 @@ module.exports = {
         use: ['style-loader','css-loader']
       },
       {
+        test: /\.mp3$/,
+        use: [
+          {
+            loader: 'file-loader'
+          }
+        ]
+      },
+      {
         test: /\.mp4$/,
         use: [
           {

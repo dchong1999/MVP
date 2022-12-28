@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import QueueItem from './QueueItem.jsx';
 import video from './umbreon-night.mp4';
+import sound from './sound.mp3';
 
 const App = () => {
   const [queue, setQueue] = useState([]);
@@ -14,6 +15,7 @@ const App = () => {
     }
     return axios.get('/getUpdates')
       .then((response) => {
+        var difference = response.data;
         var names = [];
         return axios.get('/getQueue')
           .then((response) => {
@@ -22,8 +24,12 @@ const App = () => {
                 names.push([item.OrderNo, item.Name, false]);
               });
             }
+            var audioclip = new Audio(sound);
             setQueue(names);
             setCount(names.length);
+            if (difference > 0) {
+              audioclip.play();
+            }
           })
           .catch((error) => console.log('getQueue C to S > ERROR: ', error));
           })
@@ -63,7 +69,6 @@ const App = () => {
     console.log(refresh);
     if (refresh) {
       const interval = setInterval(() => {
-        console.log('interval ran');
         showQueue();
       }, 5000);
       return () => clearInterval(interval);

@@ -24,8 +24,10 @@ app.get('/getUpdates', (req, res) => {
       response.data.orders.forEach((order) => {
         customers.unshift([order.order_number, `${order.customer.first_name} ${order.customer.last_name[0]}`]);
       });
-      db.getUpdates(customers);
-      res.sendStatus(200);
+      db.getUpdates(customers)
+        .then((response) => {
+          res.send(response);
+        });
     })
     .catch((error) => console.log('getUpdates S > API ERROR: ', error));
 });

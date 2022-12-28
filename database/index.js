@@ -13,10 +13,18 @@ const customerSchema = mongoose.Schema({
 const Customers = mongoose.model('Customers', customerSchema);
 
 const getUpdates = (entries) => {
-  entries.forEach((entry) => {
-    Customers.findOneAndUpdate({OrderNo: entry[0]}, {$setOnInsert: {Name: entry[1], Completed: false}}, {upsert: true})
-      .catch((error) => console.log('getUpdates S to D > ERROR: ', error));
-  });
+  return Customers.find().count()
+    .then((initial) => {
+      entries.forEach((entry) => {
+        Customers.findOneAndUpdate({OrderNo: entry[0]}, {$setOnInsert: {Name: entry[1], Completed: false}}, {upsert: true})
+          .catch((error) => console.log('getUpdates S to D > ERROR: ', error));
+      });
+      return Customers.find().count()
+        .then((final) => {
+          var difference = final - initial;
+          return difference.toString();
+        });
+    });
 };
 
 const getQueue = () => {
