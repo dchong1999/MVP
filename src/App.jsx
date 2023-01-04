@@ -25,6 +25,7 @@ const App = () => {
               });
             }
             var audioclip = new Audio(sound);
+            audioclip.autoplay = true;
             setQueue(names);
             setCount(names.length);
             if (difference > 0) {
