@@ -10,5 +10,8 @@ React.js, Express.js, Javascript, MongoDB, CSS, HTML, ShopifyAPI
 1. Will need to create a .env file with paramaters for the ShopifyAPI
 2. Run 'npm run server' to initialize the instance
 
+https://user-images.githubusercontent.com/70343256/219549991-eb23378d-326f-4562-bf56-b88675bcb3dc.mov
+
 ## Notes
 This project is still being tweaked using customer feedback
+
