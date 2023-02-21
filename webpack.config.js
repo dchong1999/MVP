@@ -1,28 +1,55 @@
-const path = require("path");
+const path = require('path');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  entry: "./src/index.jsx",
-  output: {
-    path: path.join(__dirname, 'public'),
-    filename: "bundle.js"
+  mode: 'development',
+  entry: './src/index.jsx',
+  output: {path: path.resolve(__dirname, 'dist')},
+  devtool: 'eval-cheap-module-source-map',
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    port: 3000,
   },
   module: {
     rules: [
       {
         test: /\.(jsx|js)$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          }
+        }
       },
       {
         test: /\.css$/,
         use: ['style-loader','css-loader']
       },
       {
+        test: /\.(png|jpeg)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+              name: 'media/[name].[ext]'
+            }
+          }
+        ]
+      },
+      {
         test: /\.mp3$/,
         use: [
           {
-            loader: 'file-loader'
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'media'
+            }
           }
         ]
       },
@@ -30,43 +57,20 @@ module.exports = {
         test: /\.mp4$/,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
             options: {
-              name: "[name].[ext]",
-              outputPath: "video"
-            }
-          }
-        ]
-      },
-      {
-        test: /\.html$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "html-loader",
-            options: {
-              sources: {
-                list: [
-                  {
-                    tag: "source",
-                    attribute: "src",
-                    type: "src"
-                  }
-                ]
-              }
+              name: '[name].[ext]',
+              outputPath: 'media'
             }
           }
         ]
       }
     ]
   },
-  // source map to let browser know what files are running our code. Helps with error tracing.
-  devtool: "eval-cheap-module-source-map",
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
-    compress: true,
-    port: 3000,
-  }
-}
+  plugins: [
+    new HtmlWebPackPlugin({
+      template: './src/index.html',
+      favicon: './src/media/logo.png'
+    })
+  ]
+};

@@ -12,6 +12,7 @@ const customerSchema = mongoose.Schema({
 
 const Customers = mongoose.model('Customers', customerSchema);
 
+//Update db with new orders from API call
 const getUpdates = (entries) => {
   return Customers.find().count()
     .then((initial) => {
@@ -27,6 +28,7 @@ const getUpdates = (entries) => {
     });
 };
 
+//Return only unfulfilled orders
 const getQueue = () => {
   return Customers.find({Completed: false}, 'Name OrderNo').sort('OrderNo')
     .then((response) => {
@@ -37,6 +39,7 @@ const getQueue = () => {
     });
 };
 
+//Return all orders
 const getAll = () => {
   return Customers.find().sort('OrderNo')
     .then((response) => {
@@ -47,16 +50,19 @@ const getAll = () => {
     });
 };
 
+//Change completion status to true
 const markCompleted = (OrderNo) => {
   return Customers.findOneAndUpdate({OrderNo: OrderNo}, {Completed: true})
     .catch((error) => console.log('markCompleted S to D > ERROR: ', error));
 };
 
+//Change completion status to false
 const markNotCompleted = (OrderNo) => {
   return Customers.findOneAndUpdate({OrderNo: OrderNo}, {Completed: false})
     .catch((error) => console.log('markNotCompleted S to D > ERROR: ', error));
 };
 
+//Delete all entries in db
 const reset = () => {
   return Customers.deleteMany()
     .catch((error) => console.log('reset S to D > ERROR: ', error));

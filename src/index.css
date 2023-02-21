@@ -1,0 +1,75 @@
+/* ~~~~~ Essentials ~~~~~ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600&display=swap');
+
+body{
+  margin: 0;
+}
+
+h1{
+  margin: 0;
+}
+
+/* ~~~~~ Banner ~~~~~ */
+
+#header{
+  background-color: black;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+
+#banner{
+  max-width: 100vw;
+  max-height: 20vh;
+}
+
+#count{
+  background-color: grey;
+  text-align: center;
+  font-family: 'Montserrat';
+  font-size: 0.85rem;
+  padding: 2px;
+  padding-bottom: 3px;
+}
+
+/* ~~~~~ Background Video ~~~~~ */
+
+#video video{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* ~~~~~ Scrollable Queue Items ~~~~~ */
+
+#scrollable{
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  font-family: 'Montserrat';
+  height: 60vh;
+  overflow: scroll;
+}
+
+/* ~~~~~ Buttons ~~~~~ */
+
+#buttons{
+  display: flex;
+  justify-content: center;
+  padding: 20px 10px 10px 10px;
+}
+
+button{
+  width: 25vw;
+  font-size: 1rem;
+  padding: 10px 10px;
+  border-radius: 12px;
+  margin-right: 15px;
+  margin-left: 15px;
+  color: black;
+}
